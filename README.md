@@ -155,7 +155,7 @@ If parallel processing is used, this folder would store the individual parts (ch
 Shows all the possible ways a mutation can be carried out. Also creates a genebank file.
 
 2. Cumulative #TODO
-A distribution plot guides 
+2.1 A distribution plot guides 
 x axis nucleiotide position 
 x counts of nucleiotides
 shows guides on both the strands
@@ -163,6 +163,8 @@ shows guides on both the strands
 in columns: type of pam used
 in subrows: type of pam
 in rows: position of editing
+
+2.2 bar plot by strategies (guides per NG, NGG etc) 
 
 ## Install new genomes
 
@@ -188,6 +190,4 @@ eg.
 	    })
 
 #TODOs
-
-- Data collation after parallel processing.
-- Integrate visualizations.
+- visualizations.pip install https://github.com/rraadd88/pyensembl/archive/master.zip
