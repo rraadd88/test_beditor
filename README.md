@@ -4,14 +4,15 @@ Python package to design guides for CRISPR base editing.
 
 ## Requirements
 
-1. Ubuntu 16.04 and 14.04 (64 bit).
+1. Ubuntu 16.04 or 14.04 (64 bit).
 
-2. Python 3.6.5 and Anaconda package distributor. A virtual environment can be created from environment.yml file in the repo.
+2. Anaconda package distributor and Python 3.6.5. 
+A virtual environment with all the dependencies can be created from a environment.yml file contained in the repository.
 	
 	cd beditor
 	conda env create -f environment.yml
 
-3. For now, one of the required package called `pyensembl` need to installed by following command.
+3. For now, one of the required package called `pyensembl` need to installed by following command. 
 
 	pip install https://github.com/rraadd88/pyensembl/archive/master.zip
 
@@ -53,14 +54,21 @@ Clone the [gihub repo](http://github.com/rraadd88/beditor.git).
 
 There are 4 steps of analysis:
 
-1. Extracting sequences (-21[3 codon bases]+21) flanking a codon position, from genome.
-2. Estimating the editable mutations based on base editors choosed.
+1. Extracting sequences flanking a codon position from genome (-21[3 codon bases]+21).
+2. Estimating the editable mutations based on base editors and mutations chosed.
 3. Designing guides.
 4. Checking offtarget effects.
 
 ## Usage
 
-To run all the steps in tandem,
+To list supported pams and editors
+
+	beditor --list pams
+	beditor --list editors
+
+These lists are located in `beditor/data` folder and can be modified. 
+
+To run all the analysis steps in tandem,
 
 	beditor --cfg config.yml 
 
@@ -70,45 +78,38 @@ To run a single step,
 
 Here, `config.yml` is a configuration file that contains all the input parameters needed for the analysis.
 
-To list supported pams and editors
-
-	beditor --list pams
-	beditor --list editors
-
-These lists are located in `beditor/data` folder and can be modified. 
-
 ## Configuration
 
 1. Make a configuration `yaml` file (see test.yml for example)
 
 This file contains all the input parameters needed for the analysis:
-
+	
+	# shown in square brackets are defaults
 	# input file path
 	dinp: input.tsv
 
 	#common crispr params
-	#guidel: 23
 	pams: ['NGG','NG']
 
 	#common 
-	## cpus/threads
+	## cpus/threads [1]
 	cores: 6
-	## number of lines to process per cpu
+	## number of lines of input file to process per cpu [100]
 	chunksize: 40
 
 	# 01_sequences
 	## host information
 	host: scientific name
-	genomerelease: 92
-	# check assembly from http://useast.ensembl.org/index.html
-	genomeassembly: fromensembl
+	# check release and assembly from http://useast.ensembl.org/index.html
+	genomerelease: TakeFromFromEnsemblSite
+	genomeassembly: TakeFromFromEnsemblSite
 
 	# 02_mutations
-	##[N nonsyn] S syn else both
+	##N if nonsynonymous, S if syn, [no input if both]
 	mutation_type: N
-	## keep nonsense
+	## keep nonsense mutations [True]
 	keep_mutation_nonsense: False
-	## allowed nucleuotide substitutions per codon
+	## allowed nucleuotide substitutions per codon [1]
 	max_subs_per_codon: 1
 	## base editors to use (restriction max_subs_per_codon would override the choice of base editors)
 	BEs: ['Target-AID','ABE']
@@ -118,21 +119,21 @@ This file contains all the input parameters needed for the analysis:
 	## 2. Required Substitutions provided as a file
 	## 3. Carry out Mimetic substitutions (base on genome wide substitution maps). Only for human and yeast.
 	## input: options 
-	## mutations: 1, substitutions: 2, mimetic: 3, [no input: keeps all possible mutations (slow)]
+	## mutations if option 1, substitutions if option 2, mimetic if option 3, [no input if keep all possible mutations (slow)]
 	mutations: 
 
 	## Option specific options
-	## 2. Substitutions provided as a file
+	## 2. Substitutions provided as a file [no input]
 	dsubmap_preferred_path: 
 
 	## 3. Mimetic substitutions
-	## mimetism level (high: only the best one, [medium: best 5], low: best 10)
+	## mimetism level (high if only the best one, [medium if best 5], low if best 10)
 	mimetism_level: medium
 
-	## can not mutate between these 
+	## can not mutate between these [no input]
 	# non_intermutables: ['S','T','K']
 
-	## 04offtargets
+	## 04offtargets [3]
 	mismatches_max: 3
 
 ## Outputs
@@ -154,7 +155,7 @@ Also,
 - `00_input/`
 Store the input files.
 - `chunks/`
-If parallel processing is used, this folder would store the individual parts (chunks) of the analysis. 
+If parallel processing is used, this folder would store individual parts (chunks) of the analysis. 
 
 ## Test datasets
 
@@ -162,21 +163,3 @@ If parallel processing is used, this folder would store the individual parts (ch
 	cd {organism name}
 	beditor --cfg project_name_all.yml
 
-#TODOs
-## Visualizations
-
-1. Individual mutation #TODO
-
-Shows all the possible ways a mutation can be carried out. Also creates a genebank file.
-
-2. Cumulative #TODO
-2.1 A distribution plot guides 
-x axis nucleiotide position 
-x counts of nucleiotides
-shows guides on both the strands
-
-in columns: type of pam used
-in subrows: type of pam
-in rows: position of editing
-
-2.2 bar plot by strategies (guides per NG, NGG etc) 
