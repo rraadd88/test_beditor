@@ -7,8 +7,13 @@ Python package to design guides for CRISPR base editing.
 1. Ubuntu 16.04 and 14.04 (64 bit).
 
 2. Python 3.6.5 and Anaconda package distributor. A virtual environment can be created from environment.yml file in the repo.
-
+	
+	cd beditor
 	conda env create -f environment.yml
+
+3. For now, one of the required package called `pyensembl` need to installed by following command.
+
+	pip install https://github.com/rraadd88/pyensembl/archive/master.zip
 
 ## Instalation
 
@@ -71,61 +76,57 @@ Here, `config.yml` is a configuration file that contains all the input parameter
 
 This file contains all the input parameters needed for the analysis:
 
-	# Input file path 
-	## contains two (tab-separated) columns: ensembl 
-	## 1. 'transcript: id' : ensembl id 
-	## 2. 'aminoacid: position' : 1-based indexing
-	dinp: din_human.tsv
+	# input file path
+	dinp: input.tsv
 
-	# Common
-	## cpus/threads for parallel processing
+	#common crispr params
+	#guidel: 23
+	pams: ['NGG','NG']
+
+	#common 
+	## cpus/threads
 	cores: 6
-	## number of lines of of input file to process per core 
-	chunksize: 100
+	## number of lines to process per cpu
+	chunksize: 40
 
-	# Step-wise parameters
-
-	## 1. Extracting sequences (-21[3 codon bases]+21) flanking a codon position, from genome.
+	# 01_sequences
 	## host information
-	host: homo_sapiens
+	host: scientific name
 	genomerelease: 92
-	genomeassembly: GRCh38
+	# check assembly from http://useast.ensembl.org/index.html
+	genomeassembly: fromensembl
 
-	## 2. Estimating the editable mutations based on base editors choosed.
-	## base editors to use
-	BEs: ['Target-AID','ABE']
-	## Type of mutation 
-	## N : nonsynonymous (default) | S : synonymous | none : both
+	# 02_mutations
+	##[N nonsyn] S syn else both
 	mutation_type: N
-	## Keep nonsense
+	## keep nonsense
 	keep_mutation_nonsense: False
-	## Allowed nucleotide substitutions per codon
+	## allowed nucleuotide substitutions per codon
 	max_subs_per_codon: 1
-	## Allow mimetic or preffered substitutions
-	## M: mimetic (default) | P: preffered (need path below) | both: both | none : keep all
-	submap_type: M
-	## Mimetism level 
-	## high: only the single best one | medium: best 5 (default) | low: best 10 
+	## base editors to use (restriction max_subs_per_codon would override the choice of base editors)
+	BEs: ['Target-AID','ABE']
+
+	## Mutations information can be provided in 3 options: 
+	## 1. Required Mutations mentioned in input file (in a column called "amino acid mutation") would override this 
+	## 2. Required Substitutions provided as a file
+	## 3. Carry out Mimetic substitutions (base on genome wide substitution maps). Only for human and yeast.
+	## input: options 
+	## mutations: 1, substitutions: 2, mimetic: 3, [no input: keeps all possible mutations (slow)]
+	mutations: 
+
+	## Option specific options
+	## 2. Substitutions provided as a file
+	dsubmap_preferred_path: 
+
+	## 3. Mimetic substitutions
+	## mimetism level (high: only the best one, [medium: best 5], low: best 10)
 	mimetism_level: medium
-	## Custom preferred substitutions (overrides mimetic one)
-	## contains 3 tab-separated columns 
-	## 1. amino acid : reference amino acid
-	## 2. amino acid mutation : mutated amino acid
-	## 3. substitute : True if substitute else False.  
-	dsubmap_preferred_path:
-	## Can not mutate between these
-	## only applies to mimetic substitutions
-	non_intermutables: ['S','T']
 
-	## 3. Designing guides.
-	## PAM sequence
-	## full list of supported PAMs is located at ./beditor/data/dpam.tsv
-	pam: ['NGG','NG'] 
+	## can not mutate between these 
+	# non_intermutables: ['S','T','K']
 
-	## 4. Checking offtarget effects.
-	## Number of mismatches allowed for bwa alignment
-	## higher is slower
-	mismatches_max: 5
+	## 04offtargets
+	mismatches_max: 3
 
 ## Outputs
 	
@@ -148,9 +149,16 @@ Store the input files.
 - `chunks/`
 If parallel processing is used, this folder would store the individual parts (chunks) of the analysis. 
 
+## Test datasets
+
+	cd test_dataset
+	cd {organism name}
+	beditor project_name_all.yml
+
+#TODOs
 ## Visualizations
 
-1. Individual mutation
+1. Individual mutation #TODO
 
 Shows all the possible ways a mutation can be carried out. Also creates a genebank file.
 
@@ -165,29 +173,3 @@ in subrows: type of pam
 in rows: position of editing
 
 2.2 bar plot by strategies (guides per NG, NGG etc) 
-
-## Install new genomes
-
-Open this file in text editor
-
-	/home/{user}/anaconda/envs/beditor/lib/python3.6/site-packages/pyensembl/species.py
-
-and append genome info in this format
-
-	{speciesname} = Species.register(
-	    latin_name="{}",
-	    synonyms=["{}"],
-	    reference_assemblies={
-	        "{}": (76, MAX_ENSEMBL_RELEASE),
-	    })
-
-eg. 
-	yeast = Species.register(
-	    latin_name="saccharomyces_cerevisiae",
-	    synonyms=["yeast"],
-	    reference_assemblies={
-	        "R64-1-1": (76, MAX_ENSEMBL_RELEASE),
-	    })
-
-#TODOs
-- visualizations.pip install https://github.com/rraadd88/pyensembl/archive/master.zip
