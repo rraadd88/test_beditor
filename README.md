@@ -62,13 +62,20 @@ There are 4 steps of analysis:
 
 To run all the steps in tandem,
 
-	beditor config.yml 
+	beditor --cfg config.yml 
 
 To run a single step,
 
-	beditor --step {step number} config.yml 
+	beditor --step {step number} --cfg config.yml 
 
 Here, `config.yml` is a configuration file that contains all the input parameters needed for the analysis.
+
+To list supported pams and editors
+
+	beditor --list pams
+	beditor --list editors
+
+These lists are located in `beditor/data` folder and can be modified. 
 
 ## Configuration
 
@@ -153,7 +160,7 @@ If parallel processing is used, this folder would store the individual parts (ch
 
 	cd test_dataset
 	cd {organism name}
-	beditor project_name_all.yml
+	beditor --cfg project_name_all.yml
 
 #TODOs
 ## Visualizations
