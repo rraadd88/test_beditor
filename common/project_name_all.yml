@@ -19,6 +19,9 @@ genomerelease: 92
 genomeassembly: fromensembl
 
 # 02_mutations
+# whether amino acid or nucleuotide mutations
+mutation_format: 
+
 ##[N nonsyn] S syn else both
 mutation_type: N
 ## keep nonsense
@@ -46,7 +49,3 @@ mimetism_level: medium
 
 ## can not mutate between these 
 # non_intermutables: ['S','T','K']
-
-## 04offtargets
-mismatches_max: 3
-

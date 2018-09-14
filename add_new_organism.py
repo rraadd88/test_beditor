@@ -1,10 +1,13 @@
 import yaml
 import pyensembl
-def make_test_dataset(cfgp):
+from os.path import dirname,basename
+from os import makedirs
+
+def make_test_dataset(cfgp,mutc=100):
 #     cfgp='../test_beditor/worm/project_name_all.yml'
     with open(cfgp,'r') as f:
         cfg=yaml.load(f)
-
+    import pyensembl
     cfg['host']=pyensembl.species.normalize_species_name(cfg['host'])        
 
     from beditor.lib.io_sys import runbashcmd
@@ -25,8 +28,8 @@ def make_test_dataset(cfgp):
     import pandas as pd
     import numpy as np
     from os.path import dirname,splitext
-
-    mutations=np.repeat(list('ACDEFGHIKLMNPQRSTVWY*'), 5)
+    aas='ACDEFGHIKLMNPQRSTVWY*'
+    mutations=np.repeat(list(aas), (mutc//len(aas))+1)
     dinput=pd.DataFrame(columns=['transcript: id','aminoacid: position','amino acid mutation'],
                        index=range(len(mutations)),
                        )
@@ -37,18 +40,18 @@ def make_test_dataset(cfgp):
                 if t.contains_start_codon and t.contains_stop_codon:
                     if not t.protein_sequence is None:
                         dinput.loc[i,'transcript: id']=t.id
-                        dinput.loc[i,'aminoacid: position']=t.protein_sequence.find('K')+1
+                        dinput.loc[i,'aminoacid: position']=t.protein_sequence.find('K')+2
                         dinput.loc[i,'amino acid mutation']=mutations[i]
                         i+=1
         if i==len(mutations):
             break
         #                 break
-
+    dinput=dinput.head(mutc)
     print(dinput.shape)
 
     dinput.to_csv(f"{dirname(cfgp)}/input.tsv",sep='\t')
                
-def make_cfg(cfgp_template,host,genomerelease,genomeassembly):
+def make_cfg(cfgp_template,host,genomerelease,genomeassembly,mutc=100):
     with open(cfgp_template,'r') as f:
         cfg=yaml.load(f)
     cfg['host']=host
@@ -56,8 +59,9 @@ def make_cfg(cfgp_template,host,genomerelease,genomeassembly):
     cfg['genomeassembly']= genomeassembly
     cfg['host']=pyensembl.species.normalize_species_name(cfg['host'])
                
-    cfgp=f"{dirname(cfgp_template)}/../{cfg['host']}/basename(cfgp_template)"
+    cfgp=f"{dirname(cfgp_template)}/../{cfg['host']}/{basename(cfgp_template)}"
     makedirs(dirname(cfgp),exist_ok=True)
     with open(cfgp, 'w') as f:
         yaml.dump(cfg, f, default_flow_style=False)                
+    make_test_dataset(cfgp,mutc=mutc)        
     return cfgp

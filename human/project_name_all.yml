@@ -41,10 +41,10 @@ dsubmap_preferred_path:
 
 ## 3. Mimetic substitutions
 ## mimetism level (high: only the best one, [medium: best 5], low: best 10)
-mimetism_level: medium
+# mimetism_level: medium
 
 ## can not mutate between these 
-non_intermutables: ['S','T','K']
+# non_intermutables: ['S','T','K']
 
 ## 04offtargets
 mismatches_max: 3
