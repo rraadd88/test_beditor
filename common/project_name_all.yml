@@ -3,13 +3,13 @@ dinp: input.tsv
 
 #common crispr params
 #guidel: 23
-pams: ['NGG','NG']
+pams: ['NGG','NG','TTN','TATV']
 
 #common 
 ## cpus/threads
 cores: 6
 ## number of lines to process per cpu
-chunksize: 40
+chunksize: 200
 
 # 01_sequences
 ## host information
@@ -19,13 +19,13 @@ genomerelease: 92
 genomeassembly: fromensembl
 
 # 02_mutations
-# whether amino acid or nucleuotide mutations
-mutation_format: 
+# whether aminoacid or nucleotide mutations
+mutation_format: aminoacid or nucleotide
 
 ##[N nonsyn] S syn else both
-mutation_type: N
+# mutation_type: N
 ## keep nonsense
-keep_mutation_nonsense: False
+# keep_mutation_nonsense: False
 ## allowed nucleuotide substitutions per codon
 max_subs_per_codon: 1
 ## base editors to use (restriction max_subs_per_codon would override the choice of base editors)
@@ -39,7 +39,7 @@ BEs: ['Target-AID','ABE']
 ## mutations: 1, substitutions: 2, mimetic: 3, [no input: keeps all possible mutations (slow)]
 mutations: 
 
-## Option specific options
+## Parameters specific to above options
 ## 2. Substitutions provided as a file
 dsubmap_preferred_path: 
 
