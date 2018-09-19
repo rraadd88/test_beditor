@@ -19,19 +19,11 @@ def make_test_dataset(cfgp,mutc=100):
 
     import pyensembl
     ensembl = pyensembl.EnsemblRelease(species=pyensembl.species.Species.register(
-                latin_name=cfg['host'],
-                synonyms=[cfg['host']],
-                reference_assemblies={
-                    cfg['genomeassembly']: (str(cfg['genomerelease']), str(cfg['genomerelease'])),
-                }),release=str(cfg['genomerelease']))
-    # print([c for c in ensembl.contigs() if not '.' in c])
-
-    # # make test data
-
-    # import pandas as pd
-    # import numpy as np
-    # from os.path import dirname,splitext
-    # print([c for c in ensembl.contigs() if not '.' in c])
+                                    latin_name=cfg['host'],
+                                    synonyms=[cfg['host']],
+                                    reference_assemblies={
+                                        cfg['genomeassembly']: (cfg['genomerelease'], cfg['genomerelease']),
+                                    }),release=cfg['genomerelease'])
 
     # make test data
 
