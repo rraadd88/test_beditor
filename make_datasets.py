@@ -170,7 +170,7 @@ def main():
         print('creating datasets for ',args.species) 
         cfgp=make_cfg(cfgp_template='common/configuration.yml',
                  host=args.species,
-                 genomerelease=str(args.genomerelease),
+                 genomerelease=92,
                  genomeassembly=args.genomeassembly,
                 mutc=100,testing=True)
 if __name__ == '__main__':
