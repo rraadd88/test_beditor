@@ -22,8 +22,8 @@ def make_test_dataset(cfgp,mutc=100):
                 latin_name=cfg['host'],
                 synonyms=[cfg['host']],
                 reference_assemblies={
-                    cfg['genomeassembly']: (cfg['genomerelease'], cfg['genomerelease']),
-                }),release=cfg['genomerelease'])
+                    cfg['genomeassembly']: (str(cfg['genomerelease']), str(cfg['genomerelease'])),
+                }),release=str(cfg['genomerelease']))
     # print([c for c in ensembl.contigs() if not '.' in c])
 
     # # make test data
