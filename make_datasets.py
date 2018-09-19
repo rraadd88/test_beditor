@@ -112,7 +112,7 @@ def make_cfg(cfgp_template,host,genomerelease,genomeassembly,mutc=100,testing=Fa
                         cfg['dsubmap_preferred_path']=abspath('common/dsubmap.tsv')
                     
                     direction='for'
-                    cfgp=f"{dirname(cfgp_template)}/../{cfg['host']}/mutation_format_{mutation_format}_mutation_{mutation}_{direction}.yml"
+                    cfgp=f"{dirname(cfgp_template)}/../dataset_{cfg['host']}/mutation_format_{mutation_format}_mutation_{mutation}_{direction}.yml"
                     makedirs(dirname(cfgp),exist_ok=True)
                     cfg['dinp']=f'input_{mutation_format}.tsv'
                     cfg['mutation_format']=mutation_format
