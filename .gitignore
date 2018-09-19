@@ -3,3 +3,7 @@ log_beditor_*
 .log_*
 log_*
 project*/*
+.ipynb_checkpoints
+make_inputs.py
+dataset_*
+*.ipynb
