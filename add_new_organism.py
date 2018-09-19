@@ -23,7 +23,7 @@ def make_test_dataset(cfgp,mutc=100):
                 reference_assemblies={
                     cfg['genomeassembly']: (cfg['genomerelease'], cfg['genomerelease']),
                 }),release=cfg['genomerelease'])
-    print([c for c in ensembl.contigs() if not '.' in c])
+    # print([c for c in ensembl.contigs() if not '.' in c])
 
     # # make test data
 
@@ -69,7 +69,7 @@ def make_test_dataset(cfgp,mutc=100):
     dinput.to_csv(f"{dirname(cfgp)}/input_aminoacid.tsv",sep='\t')
     dinput_nucleotides.to_csv(f"{dirname(cfgp)}/input_nucleotide.tsv",sep='\t')
                
-def make_cfg(cfgp_template,host,genomerelease,genomeassembly,mutc=100):
+def make_cfg(cfgp_template,host,genomerelease,genomeassembly,mutc=100,testing=False):
     with open(cfgp_template,'r') as f:
         cfg=yaml.load(f)
     cfg['host']=host
@@ -82,11 +82,40 @@ def make_cfg(cfgp_template,host,genomerelease,genomeassembly,mutc=100):
     reverse_mutations=[True,False]
     mutation_formats=['aminoacid','nucleotide']
     mutations=['mutations','substitutions','mimetic',None]
-    for mutation_format in mutation_formats:
-        for mutation in mutations:
-            if mutation=='mutations':
-                for reverse_mutation in reverse_mutations:
-                    direction='rev' if reverse_mutation else 'for'
+
+    if not testing:
+        mutation_format='nucleotide'
+        mutation='mutations'
+        cfgp=f"{dirname(cfgp_template)}/../{cfg['host']}/mutation_format_{mutation_format}_mutation_{mutation}_{direction}.yml"
+        makedirs(dirname(cfgp),exist_ok=True)
+        cfg['dinp']=f'input_{mutation_format}.tsv'
+        cfg['mutation_format']=mutation_format
+        cfg['mutations']=mutation            
+        with open(cfgp, 'w') as f:
+            yaml.dump(cfg, f, default_flow_style=False)                
+        print(f"# to run beditor on {host} dataset,")
+        print(f"source activate beditor;beditor --cfg {host}/{basename(cfgp)}")
+        make_test_dataset(cfgp,mutc=mutc)        
+    else:
+        for mutation_format in mutation_formats:
+            for mutation in mutations:
+                if mutation=='mutations':
+                    for reverse_mutation in reverse_mutations:
+                        direction='rev' if reverse_mutation else 'for'
+                        cfgp=f"{dirname(cfgp_template)}/../{cfg['host']}/mutation_format_{mutation_format}_mutation_{mutation}_{direction}.yml"
+                        makedirs(dirname(cfgp),exist_ok=True)
+                        cfg['dinp']=f'input_{mutation_format}.tsv'
+                        cfg['mutation_format']=mutation_format
+                        cfg['mutations']=mutation            
+                        cfg['reverse_mutations']=reverse_mutation            
+                        with open(cfgp, 'w') as f:
+                            yaml.dump(cfg, f, default_flow_style=False)                
+                        print(f"beditor --cfg {basename(cfgp)}")
+                else:
+                    if mutation=='substitutions':
+                        cfg['dsubmap_preferred_path']=abspath('common/dsubmap.tsv')
+                    
+                    direction='for'
                     cfgp=f"{dirname(cfgp_template)}/../{cfg['host']}/mutation_format_{mutation_format}_mutation_{mutation}_{direction}.yml"
                     makedirs(dirname(cfgp),exist_ok=True)
                     cfg['dinp']=f'input_{mutation_format}.tsv'
@@ -96,38 +125,57 @@ def make_cfg(cfgp_template,host,genomerelease,genomeassembly,mutc=100):
                     with open(cfgp, 'w') as f:
                         yaml.dump(cfg, f, default_flow_style=False)                
                     print(f"beditor --cfg {basename(cfgp)}")
-            else:
-                if mutation=='substitutions':
-                    cfg['dsubmap_preferred_path']=abspath('common/dsubmap.tsv')
-                
-                direction='for'
-                cfgp=f"{dirname(cfgp_template)}/../{cfg['host']}/mutation_format_{mutation_format}_mutation_{mutation}_{direction}.yml"
-                makedirs(dirname(cfgp),exist_ok=True)
-                cfg['dinp']=f'input_{mutation_format}.tsv'
-                cfg['mutation_format']=mutation_format
-                cfg['mutations']=mutation            
-                cfg['reverse_mutations']=reverse_mutation            
-                with open(cfgp, 'w') as f:
-                    yaml.dump(cfg, f, default_flow_style=False)                
-                print(f"beditor --cfg {basename(cfgp)}")
-    make_test_dataset(cfgp,mutc=mutc)        
+            make_test_dataset(cfgp,mutc=mutc)        
             
+def main():
+    """
+    This runs all analysis steps in tandem.
 
+    From bash command line,
+
+    .. code-block:: text
+
+        python path/to/beditor/pipeline.py cfg.json
         
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
+    :param cfg.json: path to configurations.
+
+    """
+    version_info='%(prog)s v{version}'.format(version=pkg_resources.require("beditor")[0].version)
+    parser = argparse.ArgumentParser(description=version_info)
+    parser.add_argument("--species", help="Scientific name of species without any spaces eg. Homo_sapiens.", 
+                        action="store", default=None)    
+    parser.add_argument("--genomerelease", help="ensembl genome release eg. 92.", 
+                        action="store", default=None)    
+    parser.add_argument("--genomeassembly", help="Genome assembly eg. GRCh38.", dest="lister", 
+                        action="store", default=None)
+    parser.add_argument("--test", help="Debug mode on", dest="test", 
+                        action='store_true', default=False)    
+    parser.add_argument("--force", help="Overwrite existing outputs.", dest="force", 
+                        action='store_true', default=False)    
+#    parser.add_argument('-h', '--help', action='help', #default=argparse.SUPPRESS,
+#                    help='Show this help message and exit. \n Version info: %s' % version_info)
+    args = parser.parse_args()
+    if parser.species is None:
+        species2assembly={'homo_sapiens': 'GRCh38',
+        'saccharomyces_cerevisiae':'R64-1-1',
+        'Danio_rerio':'GRCz11',
+         'Mus musculus':'GRCm38.p1',
+         'Caenorhabditis_elegans':'WBcel235'}
+
+        print('creating datasets for ',species2assembly.keys()) 
+        for spc in species2assembly:             
+            make_cfg(cfgp_template='common/project_name_all.yml',
+                     host=spc,
+                     genomerelease=92,
+                     genomeassembly=species2assembly[spc],
+                    mutc=1000)
+    else:
+        print('creating datasets for ',parser.species) 
+        make_cfg(cfgp_template='common/project_name_all.yml',
+                 host=parser.species,
+                 genomerelease=parser.genomerelease,
+                 genomeassembly=parser.genomeassembly,
+                mutc=1000)
+
+if __name__ == '__main__':
+    main()
