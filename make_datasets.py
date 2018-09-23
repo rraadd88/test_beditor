@@ -62,7 +62,9 @@ def make_test_dataset(cfgp,mutc=100):
     dinput.to_csv(f"{dirname(cfgp)}/input_aminoacid.tsv",sep='\t')
     dinput_nucleotides.to_csv(f"{dirname(cfgp)}/input_nucleotide.tsv",sep='\t')
                
-def make_cfg(cfgp_template,host,genomerelease,genomeassembly,mutc=100,testing=False):
+def make_cfg(cfgp_template,
+             host,genomerelease,genomeassembly,
+             mutc=100,testing=False):
     with open(cfgp_template,'r') as f:
         cfg=yaml.load(f)
     cfg['host']=host
@@ -73,9 +75,13 @@ def make_cfg(cfgp_template,host,genomerelease,genomeassembly,mutc=100,testing=Fa
     print(f"cd {dirname(cfgp_template)}/../{cfg['host']}")
     print("source activate beditor")
     reverse_mutations=[True,False]
-    mutation_formats=['aminoacid','nucleotide']
+    mutation_formats=['nucleotide','aminoacid']
     mutations=['mutations','substitutions','mimetic',None]
-
+#     For travis ci
+    if '/travis/' in cfgp_template:
+        mutation_formats=mutation_formats[:1]
+#         mutations=mutations[:1]
+    
     if not testing:
         mutation_format='nucleotide'
         mutation='mutations'
@@ -153,17 +159,17 @@ def main():
 
         print('creating datasets for ',species2assembly.keys()) 
         for spc in species2assembly:             
-            make_cfg(cfgp_template='common/configuration.yml',
+            make_cfg(cfgp_template=abspath('common/configuration.yml'),
                      host=spc,
                      genomerelease=92,
                      genomeassembly=species2assembly[spc],
                     mutc=1000)
     else:
         print('creating datasets for ',args.species) 
-        cfgp=make_cfg(cfgp_template='common/configuration.yml',
+        cfgp=make_cfg(cfgp_template=abspath('common/configuration.yml'),
                  host=args.species,
                  genomerelease=92,
                  genomeassembly=args.genomeassembly,
-                mutc=1000,testing=True)
+                mutc=400,testing=True)
 if __name__ == '__main__':
     main()
