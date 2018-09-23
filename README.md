@@ -1,6 +1,8 @@
 # `beditor`
-Travis Continuous-Integration platform (https://travis-ci.org/) executes tests on this datasets and ensures that there are no errors in `beditor`.  
 
-Tests on current version of `beditor` : [![build status](
+[![build status](
   http://img.shields.io/travis/rraadd88/beditor/master.svg?style=flat)](
- https://travis-ci.org/rraadd88/beditor)
+ https://travis-ci.org/rraadd88/beditor) [![PyPI version](https://badge.fury.io/py/beditor.svg)](https://pypi.python.org/pypi/beditor)
+
+Datasets used by Travis Continuous-Integration platform (https://travis-ci.org/).
+

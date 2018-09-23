@@ -11,12 +11,9 @@ def make_test_dataset(cfgp,mutc=100):
     with open(cfgp,'r') as f:
         cfg=yaml.load(f)
     import pyensembl
-    cfg['host']=pyensembl.species.normalize_species_name(cfg['host'])        
-
+    cfg['host']=pyensembl.species.normalize_species_name(cfg['host'])
     from beditor.lib.io_sys import runbashcmd
-
     runbashcmd(f"pyensembl install --reference-name {cfg['genomeassembly']} --release {cfg['genomerelease']} --species {cfg['host']}")
-
     import pyensembl
     ensembl = pyensembl.EnsemblRelease(species=pyensembl.species.Species.register(
                                     latin_name=cfg['host'],
@@ -26,7 +23,6 @@ def make_test_dataset(cfgp,mutc=100):
                                     }),release=cfg['genomerelease'])
 
     # make test data
-
     aas='ACDEFGHIKLMNPQRSTVWY*'
     mutations=np.repeat(list(aas), (mutc//len(aas))+1)[:mutc]
     dinput=pd.DataFrame(columns=['transcript: id','aminoacid: position','amino acid mutation'],
