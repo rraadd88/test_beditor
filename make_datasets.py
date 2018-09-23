@@ -89,7 +89,7 @@ def make_cfg(cfgp_template,host,genomerelease,genomeassembly,mutc=100,testing=Fa
         with open(cfgp, 'w') as f:
             yaml.dump(cfg, f, default_flow_style=False)                
         print(f"# to run beditor on {host} dataset,")
-        print(f"source activate beditor;beditor --cfg {host}/{basename(cfgp)}")
+        print(f"source activate beditor;beditor --cfg dataset_{host}/{basename(cfgp)}")
         make_test_dataset(cfgp,mutc=mutc)   
         return cfgp
     else:
@@ -164,6 +164,6 @@ def main():
                  host=args.species,
                  genomerelease=92,
                  genomeassembly=args.genomeassembly,
-                mutc=100,testing=True)
+                mutc=1000,testing=True)
 if __name__ == '__main__':
     main()
