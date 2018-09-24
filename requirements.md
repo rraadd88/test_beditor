@@ -13,4 +13,5 @@
 
 2. gcc, make, make-guile and git
     
-        sudo apt install gcc make make-guile git
+        sudo apt install gcc make make-guile git zlib1g-dev libncurses5-dev libbz2-dev
+        sudo apt update
