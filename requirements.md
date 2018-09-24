@@ -11,7 +11,7 @@
         conda update conda
         conda info -a
 
-2. gcc, make, make-guile and git
+2. Linux specific libraries
     
         sudo apt install gcc make make-guile git zlib1g-dev libncurses5-dev libbz2-dev
         sudo apt update
