@@ -2,8 +2,7 @@
 dinp: input.tsv
 
 #common crispr params
-#guidel: 23
-pams: ['NGG','NG','TTN','TATV']
+pams: ['NGG','NG']
 
 #common 
 ## cpus/threads
@@ -14,7 +13,7 @@ chunksize: 200
 # 01_sequences
 ## host information
 host: scientific name
-genomerelease: 92
+genomerelease: 93
 # check assembly from http://useast.ensembl.org/index.html
 genomeassembly: fromensembl
 
