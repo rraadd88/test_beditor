@@ -137,7 +137,7 @@ def main():
     parser = argparse.ArgumentParser(description='make the datasets to test bedior.')    
     parser.add_argument("--species", help="Scientific name of species without any spaces eg. Homo_sapiens.", dest="species",
                         action="store", default=False)    
-    parser.add_argument("--genomerelease", help="ensembl genome release eg. 92." ,dest="genomerelease", 
+    parser.add_argument("--genomerelease", help="ensembl genome release" ,dest="genomerelease", 
                         action="store", default=None)    
     parser.add_argument("--genomeassembly", help="Genome assembly eg. GRCh38.", dest="genomeassembly", 
                         action="store", default=None)
