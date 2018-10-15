@@ -12,7 +12,7 @@ Datasets used by Travis Continuous-Integration platform (https://travis-ci.org/)
 
     source activate beditor;cd test_beditor;python test_datasets.py
 
-### For testing different species (human,fish,yeast and worm). 
+### For testing different species (human,yeast and fish). 
 Note: this testing would download genomes of species which would take >50 Giga bytes and may take a long while to finish.  
 
     source activate beditor;cd test_beditor;python make_datasets.py
