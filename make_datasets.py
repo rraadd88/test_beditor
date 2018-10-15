@@ -34,9 +34,11 @@ def make_test_dataset(cfgp,mutc=100):
     dinput_nucleotides=pd.DataFrame(columns=['genome coordinate','nucleotide mutation'],
                        index=range(len(mutations_nucleotides)),
                        )
+    contig_mito=['MTDNA','MITO','MT']
     i=0
     for t in ensembl.transcripts():
-        if t.contig!='MITO':
+        c=t.contig
+        if ((not '.' in c) and (len(c)<5) and (c not in contig_mito)):
             if t.is_protein_coding:
                 if t.contains_start_codon and t.contains_stop_codon:
                     if not t.protein_sequence is None:
@@ -150,21 +152,20 @@ def main():
     if not args.species:
         species2assembly={'homo_sapiens': 'GRCh38',
         'saccharomyces_cerevisiae':'R64-1-1',
-        'Danio_rerio':'GRCz11',
-         'Caenorhabditis_elegans':'WBcel235'}
+        'Danio_rerio':'GRCz11',}
 
         print('creating datasets for ',species2assembly.keys()) 
         for spc in species2assembly:             
             make_cfg(cfgp_template=abspath('common/configuration.yml'),
                      host=spc,
-                     genomerelease=92,
+                     genomerelease=93,
                      genomeassembly=species2assembly[spc],
                     mutc=1000)
     else:
         print('creating datasets for ',args.species) 
         cfgp=make_cfg(cfgp_template=abspath('common/configuration.yml'),
                  host=args.species,
-                 genomerelease=92,
+                 genomerelease=93,
                  genomeassembly=args.genomeassembly,
                 mutc=400,testing=True)
 if __name__ == '__main__':
