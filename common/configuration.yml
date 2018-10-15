@@ -2,8 +2,7 @@
 dinp: input.tsv
 
 #common crispr params
-#guidel: 23
-pams: ['NGG','NG','TTN','TATV']
+pams: ['NGG','NG']
 
 #common 
 ## cpus/threads
