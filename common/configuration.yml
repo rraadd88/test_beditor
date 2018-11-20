@@ -48,3 +48,13 @@ mimetism_level: medium
 
 ## can not mutate between these 
 # non_intermutables: ['S','T','K']
+
+# dependencies 
+## by default the dependencies are installed from the conda environment.
+## "optionally" paths to the dependencies could be included below
+bedtools: bedtools
+bwa: bwa
+samtools: samtools
+
+
+
