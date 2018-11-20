@@ -1,60 +1,59 @@
-# input file path
+# Input: Mutation information
+## Path to this tsv (tab-separated values) file
 dinp: input.tsv
+reverse_mutations: False
 
-#common crispr params
-pams: ['NGG','NG']
-
-#common 
-## cpus/threads
-cores: 6
-## number of lines to process per cpu
-chunksize: 200
-
-# 01_sequences
+# Step 1: Extracting sequences flanking mutation site (`01_sequences/`).
 ## host information
 host: scientific name
 genomerelease: 93
 # check assembly from http://useast.ensembl.org/index.html
 genomeassembly: fromensembl
 
-# 02_mutations
+
+# Step 2: Estimating the editable mutations based on base editors chosen. (`02_mutagenesis/`).
 # whether aminoacid or nucleotide mutations
 mutation_format: aminoacid or nucleotide
-
 ##[N nonsyn] S syn else both
-# mutation_type: N
-## keep nonsense
-# keep_mutation_nonsense: False
+mutation_type: N
+## keep nonsense mutations
+keep_mutation_nonsense: False
+## Mutations information can be provided in 3 options: 
+## 1. Required Mutations mentioned in input file. 
+## 2. Required Substitutions provided as a file (template: https://github.com/rraadd88/test_beditor/blob/master/common/dsubmap.tsv).
+## 3. Carry out Mimetic substitutions (base on genome wide substitution maps). Only for human and yeast.
+## input: options 
+## mutations: 1, substitutions: 2, mimetic: 3, [no input: keeps all possible mutations (slow)]
+mutations: 1
+## Parameters specific to above options
+## 2. Substitutions provided as a file
+dsubmap_preferred_path: 
+## 3. Mimetic substitutions
+## mimetism level (high: only the best one, [medium: best 5], low: best 10)
+mimetism_level: medium
+## can not mutate between these 
+## if ['S','T','K'] is provided all mutations between thsese amino acids are disallowed
+non_intermutables: []
+
+
+# Step 3: Designed guides (`03_guides/`).
 ## allowed nucleuotide substitutions per codon
 max_subs_per_codon: 1
 ## base editors to use (restriction max_subs_per_codon would override the choice of base editors)
 BEs: ['Target-AID','ABE']
+# Cas9 related options
+## PAM sequence
+pams: ['NGG','NG']
 
-## Mutations information can be provided in 3 options: 
-## 1. Required Mutations mentioned in input file (in a column called "amino acid mutation") would override this 
-## 2. Required Substitutions provided as a file
-## 3. Carry out Mimetic substitutions (base on genome wide substitution maps). Only for human and yeast.
-## input: options 
-## mutations: 1, substitutions: 2, mimetic: 3, [no input: keeps all possible mutations (slow)]
-mutations: 
-
-## Parameters specific to above options
-## 2. Substitutions provided as a file
-dsubmap_preferred_path: 
-
-## 3. Mimetic substitutions
-## mimetism level (high: only the best one, [medium: best 5], low: best 10)
-mimetism_level: medium
-
-## can not mutate between these 
-# non_intermutables: ['S','T','K']
-
-# dependencies 
+#------------------------------------------------
+# System related options 
+## Number of cpus/threads
+cores: 6
+## Number of lines to process per cpu
+chunksize: 200
+## Dependencies 
 ## by default the dependencies are installed from the conda environment.
-## "optionally" paths to the dependencies could be included below
+## "optionally" paths to the dependencies could be included below.
 bedtools: bedtools
 bwa: bwa
 samtools: samtools
-
-
-

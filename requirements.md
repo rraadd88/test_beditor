@@ -11,7 +11,7 @@
         conda update conda
         conda info -a
 
-2. Linux specific libraries
+2. [Optional] Linux specific libraries that are very often pre-installed in a linux distro.
     
         sudo apt install gcc make make-guile git zlib1g-dev libncurses5-dev libbz2-dev
         sudo apt update
