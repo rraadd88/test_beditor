@@ -40,7 +40,7 @@ non_intermutables: []
 ## allowed nucleuotide substitutions per codon
 max_subs_per_codon: 1
 ## base editors to use (restriction max_subs_per_codon would override the choice of base editors)
-BEs: ['Target-AID','ABE']
+BEs: ['Target-AID','ABE7.10*']
 # Cas9 related options
 ## PAM sequence
 pams: ['NGG','NG']

@@ -93,7 +93,7 @@ def make_cfg(cfgp_template,
         with open(cfgp, 'w') as f:
             yaml.dump(cfg, f, default_flow_style=False)                
         print(f"# to run beditor on {host} dataset,")
-        print(f"source activate beditor;beditor --cfg dataset_{host}/{basename(cfgp)}")
+        print(f"source activate beditor;beditor dataset_{host}/{basename(cfgp)}")
         make_test_dataset(cfgp,mutc=mutc)   
         return cfgp
     else:
@@ -110,7 +110,7 @@ def make_cfg(cfgp_template,
                         cfg['reverse_mutations']=reverse_mutation            
                         with open(cfgp, 'w') as f:
                             yaml.dump(cfg, f, default_flow_style=False)                
-                        print(f"beditor --cfg {basename(cfgp)}")
+                        print(f"beditor {basename(cfgp)}")
                 else:
                     if mutation=='substitutions':
                         cfg['dsubmap_preferred_path']=abspath('common/dsubmap.tsv')
@@ -124,7 +124,7 @@ def make_cfg(cfgp_template,
                     cfg['reverse_mutations']=reverse_mutation            
                     with open(cfgp, 'w') as f:
                         yaml.dump(cfg, f, default_flow_style=False)                
-                    print(f"beditor --cfg {basename(cfgp)}")
+                    print(f"beditor {basename(cfgp)}")
             make_test_dataset(cfgp,mutc=mutc)        
             
 def main():

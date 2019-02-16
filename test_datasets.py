@@ -18,7 +18,7 @@ def test_species(host='saccharomyces_cerevisiae',genomeassembly='R64-1-1'):
     for datasetd in glob('dataset_*'):
         for cfgp in glob(f"{datasetd}/*.yml"):
             cfgp=basename(cfgp)
-            com=f"source activate beditor;cd {datasetd};beditor --cfg {cfgp}"
+            com=f"source activate beditor;cd {datasetd};beditor {cfgp}"
             runbashcmd(com,test=True)
 
 test_species()
