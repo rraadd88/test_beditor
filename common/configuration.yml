@@ -10,6 +10,11 @@ genomerelease: 93
 # check assembly from http://useast.ensembl.org/index.html
 genomeassembly: fromensembl
 
+# control gRNAs
+## non-sense (stop) mutations in the genes being edited
+make_control_pos: True
+## no editable nt in the activity window (applicable to amino acid level mutations only)
+make_control_neg: True
 
 # Step 2: Estimating the editable mutations based on base editors chosen. (`02_mutagenesis/`).
 # whether aminoacid or nucleotide mutations
