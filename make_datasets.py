@@ -162,7 +162,7 @@ def main():
                      host=spc,
                      genomerelease=93,
                      genomeassembly=species2assembly[spc],
-                    mutc=args.mutc)
+                    mutc=int(args.mutc))
     else:
         print('creating datasets for ',args.species) 
         cfgp=make_cfg(cfgp_template=abspath('common/configuration.yml'),
