@@ -141,6 +141,8 @@ def main():
                         action="store", default=None)    
     parser.add_argument("--genomeassembly", help="Genome assembly eg. GRCh38.", dest="genomeassembly", 
                         action="store", default=None)
+    parser.add_argument("--mutc", help="number of mutation", dest="mutc", 
+                        action="store", default=400)
     parser.add_argument("--test", help="Debug mode on", dest="test", 
                         action='store_true', default=False)    
     parser.add_argument("--force", help="Overwrite existing outputs.", dest="force", 
@@ -167,6 +169,6 @@ def main():
                  host=args.species,
                  genomerelease=93,
                  genomeassembly=args.genomeassembly,
-                mutc=400,testing=True)
+                mutc=args.mutc,testing=True)
 if __name__ == '__main__':
     main()
