@@ -142,7 +142,7 @@ def main():
     parser.add_argument("--genomeassembly", help="Genome assembly eg. GRCh38.", dest="genomeassembly", 
                         action="store", default=None)
     parser.add_argument("--mutc", help="number of mutation", dest="mutc", 
-                        action="store", default=400)
+                        action="store", default=1000)
     parser.add_argument("--test", help="Debug mode on", dest="test", 
                         action='store_true', default=False)    
     parser.add_argument("--force", help="Overwrite existing outputs.", dest="force", 
@@ -162,13 +162,13 @@ def main():
                      host=spc,
                      genomerelease=93,
                      genomeassembly=species2assembly[spc],
-                    mutc=1000)
+                    mutc=mutc.args)
     else:
         print('creating datasets for ',args.species) 
         cfgp=make_cfg(cfgp_template=abspath('common/configuration.yml'),
                  host=args.species,
                  genomerelease=93,
                  genomeassembly=args.genomeassembly,
-                mutc=args.mutc,testing=True)
+                mutc=400,testing=True)
 if __name__ == '__main__':
     main()
