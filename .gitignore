@@ -7,3 +7,4 @@ project*/*
 make_inputs.py
 dataset_*
 *.ipynb
+_*
