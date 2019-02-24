@@ -2,6 +2,7 @@
 ## Path to this tsv (tab-separated values) file
 dinp: input.tsv
 reverse_mutations: False
+# step2ignore
 
 # Step 1: Extracting sequences flanking mutation site (`01_sequences/`).
 ## host information
