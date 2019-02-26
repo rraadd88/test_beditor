@@ -138,7 +138,7 @@ def main():
     parser.add_argument("--species", help="Scientific name of species without any spaces eg. Homo_sapiens.", dest="species",
                         action="store", default=False)    
     parser.add_argument("--genomerelease", help="ensembl genome release" ,dest="genomerelease", 
-                        action="store", default=None)    
+                        action="store", default=93)    
     parser.add_argument("--genomeassembly", help="Genome assembly eg. GRCh38.", dest="genomeassembly", 
                         action="store", default=None)
     parser.add_argument("--mutc", help="number of mutation", dest="mutc", 
@@ -160,7 +160,7 @@ def main():
         for spc in species2assembly:             
             make_cfg(cfgp_template=abspath('common/configuration.yml'),
                      host=spc,
-                     genomerelease=93,
+                     genomerelease=args.genomerelease,
                      genomeassembly=species2assembly[spc],
                     mutc=int(args.mutc),
                     testing=args.test)
@@ -168,7 +168,7 @@ def main():
         print('creating datasets for ',args.species) 
         cfgp=make_cfg(cfgp_template=abspath('common/configuration.yml'),
                  host=args.species,
-                 genomerelease=93,
+                 genomerelease=args.genomerelease,
                  genomeassembly=args.genomeassembly,
                 mutc=400,testing=True)
 if __name__ == '__main__':
