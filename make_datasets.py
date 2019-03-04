@@ -138,7 +138,7 @@ def main():
     parser.add_argument("--species", help="Scientific name of species without any spaces eg. Homo_sapiens.", dest="species",
                         action="store", default=False)    
     parser.add_argument("--genomerelease", help="ensembl genome release" ,dest="genomerelease", 
-                        action="store", default=93,type=int,)    
+                        action="store", default=95,type=int,)    
     parser.add_argument("--genomeassembly", help="Genome assembly eg. GRCh38.", dest="genomeassembly", 
                         action="store", default=None)
     parser.add_argument("--mutc", help="number of mutation", dest="mutc", 
