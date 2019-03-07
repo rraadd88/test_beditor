@@ -7,12 +7,18 @@
 Datasets used by Travis Continuous-Integration platform (https://travis-ci.org/).
 
 ## Usage
+
+### Cloning the repository:
+
+    git clone https://github.com/rraadd88/test_beditor.git
+
     
 ### For testing options of beditor:
 
     source activate beditor;cd test_beditor;python test_datasets.py
 
-### For testing different species (human,yeast and fish). 
+### For testing different species (example human,yeast and fish). 
+
 Note: this testing would download genomes of species which would take >50 Giga bytes and may take a long while to finish.  
 
     source activate beditor;cd test_beditor;python make_datasets.py
