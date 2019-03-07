@@ -7,7 +7,7 @@ reverse_mutations: False
 # Step 1: Extracting sequences flanking mutation site (`01_sequences/`).
 ## host information
 host: scientific name
-genomerelease: 93
+genomerelease: 95
 # check assembly from http://useast.ensembl.org/index.html
 genomeassembly: fromensembl
 
