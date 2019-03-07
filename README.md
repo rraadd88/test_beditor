@@ -28,7 +28,33 @@ It will create directories with a prefix 'dataset_'. Then individual species can
     source activate beditor;cd test_beditor/dataset_{species name};beditor --cfg {name of the .yml file}
 
 Usage
------
+---------
+### GUI mode
+
+Open the GUI window from terminal.
+
+``` {.sourceCode .text}
+beditor
+```
+
+step1: input the configuration settings.  
+*Demo input tables can be loaded at the option called `mutation table`, from a directory `dataset_saccharomyces_cerevisiae_release95`.*
+
+![](docs/static/gui01.png)
+![](docs/static/gui02.png)
+
+Note: genomes listed in the gui correspond to ensembl release=95. 
+
+step2: save the configuration settings and run `beditor`.  
+
+![](docs/static/gui03.png)
+![](docs/static/gui04.png)
+
+Note: GUI session need to be restarted between runs.
+Note: see the terminal messages in case of any issue.
+
+
+### Command line mode
 
 1.  Run the analysis.
 
@@ -142,23 +168,22 @@ According to the mutation_format opted in configuration.yml file and correspondi
 
 ### nucleotide : ['genome coordinate','nucleotide mutation'].
 
-Example:
+Example for *S. cerevisiae* (ensembl genome release=95):
 
 | genome coordinate | nucleotide mutation |
 |-------------------|---------------------|
-| II:711491-711491+ | T                   |
-| II:712904-712904- | T                   |
-| II:714707-714707- | G                   |
-| II:716782-716782- | G                   |
+| I:147494-147494-  | A                   |
+| I:143607-143607+  | A                   |
+| II:369937-369937- | C                   |
+| II:372003-372003- | C                   |
 
 ### aminoacid  : ['transcript: id','aminoacid: position','amino acid mutation'].
 
-Example:
+Example for *S. cerevisiae* (ensembl genome release=95):
 
 | transcript: id | aminoacid: position | amino acid mutation |
 |----------------|---------------------|---------------------|
-| YAL040C        | 6                   | A                   |
-| YAL041W        | 18                  | A                   |
-| YAL042C-A      | 65                  | A                   |
-| YAL042W        | 3                   | C                   |
-| YAL043C        | 14                  | C                   |
+| YAL001C_mRNA   | 18                  | A                   |
+| YAL002W_mRNA   | 24                  | A                   |
+| YAL019W_mRNA   | 24                  | C                   |
+| YAL067W-A_mRNA | 13                  | F                   |
