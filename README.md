@@ -41,13 +41,11 @@ step1: input the configuration settings.
 *Demo input tables can be loaded at the option called `mutation table`, from a directory `dataset_saccharomyces_cerevisiae_release95`.*
 
 ![](docs/static/gui01.png)
-![](docs/static/gui02.png)
 
 Note: genomes listed in the gui correspond to ensembl release=95. 
 
 step2: save the configuration settings and run `beditor`.  
 
-![](docs/static/gui03.png)
 ![](docs/static/gui04.png)
 
 Note: GUI session need to be restarted between runs.
