@@ -13,20 +13,6 @@ Datasets used by Travis Continuous-Integration platform (https://travis-ci.org/)
     git clone https://github.com/rraadd88/test_beditor.git
 
     
-### For testing options of beditor:
-
-    source activate beditor;cd test_beditor;python test_datasets.py
-
-### For testing different species (example human,yeast and fish). 
-
-Note: this testing would download genomes of species which would take >50 Giga bytes and may take a long while to finish.  
-
-    source activate beditor;cd test_beditor;python make_datasets.py
-
-It will create directories with a prefix 'dataset_'. Then individual species can be tested by commands in following format.
-
-    source activate beditor;cd test_beditor/dataset_{species name};beditor --cfg {name of the .yml file}
-
 Usage
 ---------
 ### GUI mode
@@ -54,38 +40,19 @@ Note: see the terminal messages in case of any issue.
 
 ### Command line mode
 
-1.  Run the analysis.
+#### For testing different options of beditor:
 
-``` {.sourceCode .text}
-beditor --cfg configuration.yml
-```
+    source activate beditor;cd test_beditor;python test_datasets.py
 
-2.  Run a single step in the analysis.
+#### For testing different species (example human,yeast and fish). 
 
-``` {.sourceCode .text}
-beditor --cfg --step {step number} configuration.yml
-```
-`step number` and corresponding analysis:
+Note: this testing would download genomes of species which would take >50 Giga bytes and may take a long while to finish.  
 
-``` {.sourceCode .text}
-1: Get genomic loci flanking the target site
-2: Get possible mutagenesis strategies
-3: Design guides
-4: Check offtarget-effects
-``` 
+    source activate beditor;cd test_beditor;python make_datasets.py
 
-3. To list existing pams and editors
+It will create directories with a prefix 'dataset_'. Then individual species can be tested by commands in following format.
 
-``` {.sourceCode .text}
-beditor --list pams
-beditor --list editors
-```
-
-4. Help
-
-``` {.sourceCode .text}
-beditor --help
-```
+    source activate beditor;cd test_beditor/dataset_{species name};beditor --cfg {name of the .yml file}
 
 Input format
 ------------------
